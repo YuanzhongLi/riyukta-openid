@@ -1,2 +1,7 @@
-package riyukita.openid.client.client;public interface AuthClient {
+package riyukita.openid.client.client;
+
+import reactor.core.publisher.Mono;
+
+public interface AuthClient {
+    Mono<String> getAuthorizationCode();
 }
