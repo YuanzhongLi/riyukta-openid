@@ -14,7 +14,7 @@ class AuthClientImplTest {
 
     @Test
     void testGetAuthorizationCode() {
-        final String EXPECTED_AUTHORIZATION_CODE = "authorization code";
+        final String EXPECTED_AUTHORIZATION_CODE = "redirect to authentication page";
 
         StepVerifier
                 .create(client.getAuthorizationCode())
