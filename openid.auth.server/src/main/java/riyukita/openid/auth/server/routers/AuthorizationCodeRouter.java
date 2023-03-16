@@ -14,6 +14,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @RequiredArgsConstructor
 public class AuthorizationCodeRouter {
     public static final String AUTHORIZATION_CODE_PATH = "/authorization-code";
+    public static final String AUTHENTICATION_URL = "/authentication";
 
     private final AuthorizationCodeHandler handler;
 
@@ -21,6 +22,7 @@ public class AuthorizationCodeRouter {
     public RouterFunction<ServerResponse> authorizationCodeRoutes() {
         return route()
                 .GET(AUTHORIZATION_CODE_PATH, accept(MediaType.APPLICATION_JSON), handler::getAuthorizationCode)
+                .GET(AUTHENTICATION_URL, accept(MediaType.APPLICATION_JSON), handler::authentication)
                 .build();
     }
 }
