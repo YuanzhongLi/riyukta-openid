@@ -6,6 +6,6 @@
 </head>
 <body>
     <h1>Authorization Request Page</h1>
-    <button th:attr="onclick=${authClient}.getAuthorizationCode()"></button>
+    <input type="button" value="Authorization code request" th:attr="onClick='location.href=\''+${authorizationCodeUri}+'\''"/>
 </body>
 </html>
