@@ -6,8 +6,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
+
+import java.net.URI;
 
 @Log4j2
 @Component
@@ -20,8 +23,22 @@ public class AuthClientImpl implements AuthClient {
     private static final String SCOPE = "scope";
     private static final String STATE = "state";
 
+    private final String authorizationCodeUri;
+
     public AuthClientImpl(@Value("${auth.server.rooturl}") String authServerUrl, WebClient.Builder builder) {
         log.info("auth server url: {}", authServerUrl);
+        this.authorizationCodeUri = UriComponentsBuilder.fromUri(URI.create(authServerUrl))
+                .path(AUTHORIZATION_CODE_PATH)
+                .queryParam("response_type", RESPONSE_TYPE)
+                .queryParam("client_id", CLIENT_ID)
+                .queryParam("redirect_uri", REDIRECT_URI)
+                .queryParam("scope", SCOPE)
+                .queryParam("state", STATE)
+                .build()
+                .toUriString();
+
+        log.info("authorization code uri: {}", authorizationCodeUri);
+
         this.client = builder
                 .baseUrl(authServerUrl)
                 .clientConnector(new ReactorClientHttpConnector(HttpClient
@@ -30,10 +47,14 @@ public class AuthClientImpl implements AuthClient {
                 .build();
     }
 
+    @Override
+    public String getAuthorizationCodeUri() {
+        return authorizationCodeUri;
+    }
+
 
     @Override
     public Mono<String> getAuthorizationCode() {
-
         return client
                 .get()
                 .uri(uriBuilder -> uriBuilder

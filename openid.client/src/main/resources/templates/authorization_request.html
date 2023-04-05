@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Authorization Request</title>
+</head>
+<body>
+    <h1>Authorization Request Page</h1>
+    <input type="button" value="Authorization code request" th:attr="onClick='location.href=\''+${authorizationCodeUri}+'\''"/>
+</body>
+</html>
